@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Interactive Quiz</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+      padding: 40px 20px;
+      min-height: 100vh;
+      background: url('https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=1470&q=80') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .quiz-container {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      padding: 30px;
+      max-width: 600px;
+      width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      color: white;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    #answers {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    button {
+      padding: 12px 20px;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      border-radius: 10px;
+      background: #00c6ff;  /* fallback for old browsers */
+      background: linear-gradient(to right, #0072ff, #00c6ff);
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    #score {
+      margin-top: 10px;
+      font-weight: 500;
+      font-size: 18px;
+    }
+
+    @media (max-width: 600px) {
+      .quiz-container {
+        padding: 20px;
+      }
+
+      button {
+        font-size: 14px;
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="quiz-container">
+    <h2 id="question">Loading Question...</h2>
+    <div id="answers">
+      <button onclick="checkAnswer('A')" id="btnA">Answer A</button>
+      <button onclick="checkAnswer('B')" id="btnB">Answer B</button>
+      <button onclick="checkAnswer('C')" id="btnC">Answer C</button>
+    </div>
+    <p id="score">Score: 0</p>
+  </div>
+
+  <script>
+    const quizData = [
+      { question: "What is the capital of France?", answers: { A: "Paris", B: "London", C: "Berlin" }, correct: "A" },
+      { question: "Which is the largest planet?", answers: { A: "Earth", B: "Jupiter", C: "Mars" }, correct: "B" },
+      { question: "Who wrote 'Ramayana'?", answers: { A: "Valmiki", B: "Tulsidas", C: "Kalidasa" }, correct: "A" }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    function loadQuestion() {
+      const q = quizData[currentQuestion];
+      document.getElementById('question').innerText = q.question;
+      document.getElementById('btnA').innerText = q.answers.A;
+      document.getElementById('btnB').innerText = q.answers.B;
+      document.getElementById('btnC').innerText = q.answers.C;
+    }
+
+    function checkAnswer(answer) {
+      if (answer === quizData[currentQuestion].correct) {
+        score++;
+        alert("✅ Correct!");
+      } else {
+        alert("❌ Wrong answer.");
+      }
+
+      currentQuestion++;
+      if (currentQuestion < quizData.length) {
+        loadQuestion();
+      } else {
+        document.getElementById('question').innerText = "🎉 Quiz Completed!";
+        document.getElementById('answers').style.display = "none";
+      }
+
+      document.getElementById('score').innerText = "Score: " + score;
+    }
+
+    loadQuestion();
+  </script>
+
+</body>
+</html>
